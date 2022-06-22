@@ -1,0 +1,28 @@
+.drag-zone {
+  border-radius: 0.7em;
+  background: #eee;
+  padding: 2em;
+  color: rgb(78, 78, 78);
+  font-weight: 800;
+  text-align: center;
+}
+
+.drag-zone:hover {
+  background: rgb(81, 81, 81);
+  color: white;
+}
+
+.three-overlay {
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.help-icon {
+  z-index: 100;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
