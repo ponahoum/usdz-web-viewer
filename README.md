@@ -1,6 +1,11 @@
 # Three USDZ Loader
 
-This is a demo project showing how to load a USDZ file with ThreeJS (Pixar Universal Scene Description) in a Vue/Vuetify/Typescript application. For more information about which kind of USDZ you may load please take a look at the **loader package** [three-usdz-loader]**(https://www.npmjs.com/package/three-usdz-loader) which is used in this demo project
+This is a demo project showing how to load a **USDZ file** with ThreeJS (Pixar Universal Scene Description) in a 100% frontend based application.
+For more information about the USDZ loader used in this demo please take a look at the **loader package** [three-usdz-loader](https://www.npmjs.com/package/three-usdz-loader).
+
+## Features
+- 100% frontend (no backend or GLTF converter of some sort)
+- Uses ThreeJS + Vue + Vuetify + Typescript
 
 ## Demo
 This repository build is published to [usdz-viewer.net](https://www.usdz-viewer.net)
