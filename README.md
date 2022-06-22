@@ -11,6 +11,12 @@ For more information about the USDZ loader used in this demo please take a look 
 This repository build is published to [usdz-viewer.net](https://www.usdz-viewer.net)
 
 ## How to use
+Clone the repository
+```
+git clone https://github.com/ponahoum/usdz-web-viewer.git
+cd .\usdz-web-viewer\
+```
+
 Install the dependencies
 ```
 npm install
