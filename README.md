@@ -17,8 +17,9 @@ git clone https://github.com/ponahoum/usdz-web-viewer.git
 cd .\usdz-web-viewer\
 ```
 
-Install the dependencies
+Install Vue Cli and the dependencies
 ```
+npm install -g @vue/cli
 npm install
 ```
 
