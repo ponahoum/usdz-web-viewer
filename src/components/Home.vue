@@ -6,6 +6,20 @@
     ref="three-container"
   >
     <div class="three-overlay">
+      <div v-if="error != null" class="mb-3" style="color: red; center;">
+        An error occured when loading the USDZ file. Maybe this file is not
+        supported or the loader is not supported on this device.
+      </div>
+      <input
+        type="file"
+        multiple
+        v-show="false"
+        name="fields[assetsFieldHandle][]"
+        class="w-px h-px opacity-0 overflow-hidden absolute"
+        @change="onChange"
+        ref="file"
+        accept=".usdz"
+      />
       <div v-if="!modelIsVisible" class="drag-zone" @click="onClickDragZone">
         <div
           class="flex w-full h-screen items-center justify-center text-center"
@@ -15,22 +29,25 @@
             Drag USDZ file here or
             <span class="underline">click here</span>
           </div>
-          <input
-            type="file"
-            multiple
-            v-show="false"
-            name="fields[assetsFieldHandle][]"
-            class="w-px h-px opacity-0 overflow-hidden absolute"
-            @change="onChange"
-            ref="file"
-            accept=".usdz"
-          />
         </div>
       </div>
     </div>
-    <div class="help-icon">
-      <v-btn @click="dialog = !dialog" class="mx-2" fab dark color="indigo">
+    <div class="top-left">
+      <v-btn
+        @click="dialog = !dialog"
+        class="mx-2"
+        small
+        outlined
+        fab
+        dark
+        color="indigo"
+      >
         <v-icon dark> mdi-help </v-icon>
+      </v-btn>
+    </div>
+    <div v-if="modelIsVisible" class="top-right" @click="onClickDragZone">
+      <v-btn outlined rounded class="mx-2" dark color="indigo">
+        Load another model
       </v-btn>
     </div>
     <v-dialog v-model="dialog" width="500">

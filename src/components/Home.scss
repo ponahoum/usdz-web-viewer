@@ -20,9 +20,16 @@
   transform: translate(-50%, -50%);
 }
 
-.help-icon {
+.top-left {
   z-index: 100;
   position: absolute;
-  bottom: 15px;
+  top: 15px;
+  left: 15px;
+}
+
+.top-right {
+  z-index: 100;
+  position: absolute;
+  top: 15px;
   right: 15px;
 }

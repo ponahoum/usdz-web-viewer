@@ -32,6 +32,12 @@ export default class Home extends Vue {
   // USDZ loader instance. Only one should be instantiated in the DOM scope
   loader!: USDZLoader;
 
+  // Simple error handling
+  error: string | null = null;
+
+  // Tells if the loader has loaded with success
+  loaderReady: boolean | null = null;
+
   async mounted(): Promise<void> {
     // Setup camera
     this.camera = new THREE.PerspectiveCamera(
@@ -126,6 +132,9 @@ export default class Home extends Vue {
     // Notice model is now loading
     this.modelIsLoading = true;
 
+    // Reset any previous error
+    this.error = null;
+
     // Clearup any previsouly loaded model
     // We could technically load multiple files by removing this for loop
     for (const el of this.loadedModels) {
@@ -136,8 +145,17 @@ export default class Home extends Vue {
     // Create the ThreeJs Group in which the loaded USDZ model will be placed
     const group = new THREE.Group();
     this.scene.add(group);
-    const loadedModel = await this.loader.loadFile(file, group);
-    this.loadedModels.push(loadedModel);
+
+    // Load file and catch any error to show the user
+    try {
+      const loadedModel = await this.loader.loadFile(file, group);
+      this.loadedModels.push(loadedModel);
+    } catch (e) {
+      this.error = e as string;
+      console.error("An error occured when trying to load the model" + e);
+      this.modelIsLoading = false;
+      return;
+    }
 
     // Fits the camera to match the loaded model
     const allContainers = this.loadedModels.map((el: USDZInstance) => {
