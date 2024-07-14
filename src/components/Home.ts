@@ -63,8 +63,7 @@ export default class Home extends Vue {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.toneMapping = THREE.CineonToneMapping;
-    this.renderer.toneMappingExposure = 2;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.shadowMap.enabled = false;
     this.renderer.shadowMap.type = THREE.VSMShadowMap;
 
@@ -80,6 +79,7 @@ export default class Home extends Vue {
           texture.mapping = THREE.EquirectangularReflectionMapping;
           texture.needsUpdate = true;
           window.envMap = hdrRenderTarget.texture;
+          hdrRenderTarget.texture.colorSpace = THREE.LinearSRGBColorSpace;
           resolve(true);
         }
       );
