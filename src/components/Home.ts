@@ -100,6 +100,30 @@ export default class Home extends Vue {
 
     // Setup windows events
     window.addEventListener("resize", this.onWindowResize);
+
+    // Load file from URL after the window has fully loaded
+    this.loadFileFromUrl();
+  }
+
+  async loadFileFromUrl(): Promise<void> {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fileUrl = urlParams.get('url');
+    if (fileUrl) {
+        const decodedUrl = decodeURIComponent(fileUrl); // Decode the URL
+        try {
+            const response = await fetch(decodedUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const fileBlob = await response.blob();
+            // Specify the correct MIME type for USDZ files
+            const file = new File([fileBlob], 'loadedFile.usdz', { type: 'model/vnd.usdz+zip' }); // Use the correct MIME type
+            await this.loadFile(file);
+        } catch (error) {
+            console.error("Failed to load the file from URL:", error);
+            this.error = error instanceof Error ? error.message : "An unknown error occurred."; // Set error message for user feedback
+        }
+    }
   }
 
   /**
@@ -126,7 +150,7 @@ export default class Home extends Vue {
   async loadFile(file: File): Promise<void> {
     // Prevents multiple loadings in parallel
     if (this.modelIsLoading) {
-      return;
+        return;
     }
 
     // Notice model is now loading
@@ -135,10 +159,12 @@ export default class Home extends Vue {
     // Reset any previous error
     this.error = null;
 
-    // Clearup any previsouly loaded model
-    // We could technically load multiple files by removing this for loop
+    // Log the file details for debugging
+    console.log("Loading file:", file.name, "Type:", file.type, "Size:", file.size);
+
+    // Clear up any previously loaded model
     for (const el of this.loadedModels) {
-      el.clear();
+        el.clear();
     }
     this.loadedModels = [];
 
@@ -148,18 +174,18 @@ export default class Home extends Vue {
 
     // Load file and catch any error to show the user
     try {
-      const loadedModel = await this.loader.loadFile(file, group);
-      this.loadedModels.push(loadedModel);
+        const loadedModel = await this.loader.loadFile(file, group);
+        this.loadedModels.push(loadedModel);
     } catch (e) {
-      this.error = e as string;
-      console.error("An error occured when trying to load the model" + e);
-      this.modelIsLoading = false;
-      return;
+        this.error = e as string;
+        console.error("An error occurred when trying to load the model:", e);
+        this.modelIsLoading = false;
+        return;
     }
 
     // Fits the camera to match the loaded model
     const allContainers = this.loadedModels.map((el: USDZInstance) => {
-      return el.getGroup();
+        return el.getGroup();
     });
     this.fitCamera(this.camera, this.controls, allContainers);
 
