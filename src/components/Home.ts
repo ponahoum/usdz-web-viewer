@@ -1,7 +1,7 @@
 import { Component, Ref, Vue } from "vue-property-decorator";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
+import { HDRLoader } from "three/examples/jsm/loaders/HDRLoader.js";
 import { DataTexture } from "three";
 import { USDZInstance } from "three-usdz-loader/lib/USDZInstance";
 import { USDZLoader } from "three-usdz-loader";
@@ -71,7 +71,7 @@ export default class Home extends Vue {
     await new Promise((resolve) => {
       const pmremGenerator = new THREE.PMREMGenerator(this.renderer);
       pmremGenerator.compileCubemapShader();
-      new RGBELoader().load(
+      new HDRLoader().load(
         "studio_country_hall_1k.hdr",
         (texture: DataTexture) => {
           const hdrRenderTarget = pmremGenerator.fromEquirectangular(texture);
